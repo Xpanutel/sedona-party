@@ -1,6 +1,7 @@
 <?php
 // Подключаем конфигурацию
 require_once 'includes/config.php';
+$electionDate = getNextElectionDate();
 ?>
 <!DOCTYPE html>
 <html lang="ru">
@@ -60,6 +61,11 @@ require_once 'includes/config.php';
                     <div class="counter-label">Секунд</div>
                 </div>
             </div>
+        </div>
+
+        <div id="election-date-data" 
+            data-date="<?= $electionDate->format('Y-m-d') ?>"
+            style="display:none;">
         </div>
 
         <div class="about-content">

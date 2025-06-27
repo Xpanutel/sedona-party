@@ -54,25 +54,57 @@ scrollTopBtn.addEventListener('click', () => {
 });
 
 // Election counter
+// function updateElectionCounter() {
+//     const electionDate = new Date('2024-11-05T00:00:00').getTime();
+//     const now = new Date().getTime();
+//     const distance = electionDate - now;
+
+//     const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+//     const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+//     const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+//     const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+//     document.getElementById('days').textContent = days.toString().padStart(2, '0');
+//     document.getElementById('hours').textContent = hours.toString().padStart(2, '0');
+//     document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
+//     document.getElementById('seconds').textContent = seconds.toString().padStart(2, '0');
+// }
+
+// Election counter
 function updateElectionCounter() {
-    const electionDate = new Date('2024-11-05T00:00:00').getTime();
+    // Получаем дату из data-атрибута
+    const electionDateStr = document.getElementById('election-date-data').dataset.date;
+    const electionDate = new Date(electionDateStr + 'T00:00:00').getTime();
     const now = new Date().getTime();
     const distance = electionDate - now;
 
+    // Расчет значений
     const days = Math.floor(distance / (1000 * 60 * 60 * 24));
     const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
     const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
     const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
+    // Обновление DOM
     document.getElementById('days').textContent = days.toString().padStart(2, '0');
     document.getElementById('hours').textContent = hours.toString().padStart(2, '0');
     document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
     document.getElementById('seconds').textContent = seconds.toString().padStart(2, '0');
+
+    // Если время истекло
+    if (distance < 0) {
+        clearInterval(electionTimer);
+        document.getElementById('electionCounter').innerHTML = 
+            '<div class="election-ended">Выборы начались!</div>';
+    }
 }
 
+// Запускаем таймер
+const electionTimer = setInterval(updateElectionCounter, 1000);
+updateElectionCounter(); 
+
 // Update counter every second
-setInterval(updateElectionCounter, 1000);
-updateElectionCounter();
+// setInterval(updateElectionCounter, 1000);
+// updateElectionCounter();
 
 // Animate stats on scroll
 function animateStats() {
